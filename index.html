@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQA_GenAI — 自然語言轉測試案例</title>
+  <style>
+    :root {
+      --bg-primary: #0d1117; --bg-secondary: #161b22; --bg-card: #1c2128;
+      --bg-input: #0d1117; --border: #30363d; --border-focus: #6366f1;
+      --text-primary: #e6edf3; --text-secondary: #8b949e; --text-muted: #6e7681;
+      --accent: #6366f1; --accent-hover: #818cf8; --accent-light: rgba(99,102,241,0.15);
+      --high: #f85149; --high-bg: rgba(248,81,73,0.15);
+      --medium: #d29922; --medium-bg: rgba(210,153,34,0.15);
+      --low: #3fb950; --low-bg: rgba(63,185,80,0.15);
+      --radius: 8px; --radius-lg: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans TC', sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.6; }
+
+    /* ── Header ── */
+    header { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 14px 28px; display: flex; align-items: center; gap: 14px; }
+    .header-brand { display: flex; align-items: center; gap: 10px; }
+    .header-brand h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+    .header-brand p { font-size: 12px; color: var(--text-secondary); }
+    .header-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .key-indicator { width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); transition: background 0.3s; }
+    .key-indicator.active { background: var(--low); box-shadow: 0 0 6px rgba(63,185,80,0.5); }
+    .key-indicator.env { background: var(--medium); }
+    .model-badge { background: var(--accent-light); color: var(--accent-hover); border: 1px solid rgba(99,102,241,0.3); border-radius: 20px; padding: 3px 10px; font-size: 11px; font-family: 'SF Mono','Fira Code',monospace; }
+    .settings-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); width: 32px; height: 32px; border-radius: var(--radius); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; transition: all 0.15s; }
+    .settings-btn:hover { border-color: var(--accent); color: var(--text-primary); background: var(--accent-light); }
+
+    /* ── Modal ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); width: 480px; max-width: 94vw; box-shadow: 0 24px 64px rgba(0,0,0,0.5); }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px 14px; border-bottom: 1px solid var(--border); }
+    .modal-header h3 { font-size: 15px; font-weight: 600; }
+    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
+    .modal-close:hover { color: var(--text-primary); background: rgba(255,255,255,0.07); }
+    .modal-body { padding: 20px 22px; }
+    .modal-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500; letter-spacing: 0.3px; text-transform: uppercase; }
+    .key-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .key-row input { flex: 1; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-primary); border-radius: var(--radius); padding: 9px 12px; font-size: 14px; font-family: 'SF Mono','Fira Code',monospace; outline: none; }
+    .key-row input:focus { border-color: var(--border-focus); }
+    .key-row input::placeholder { font-family: sans-serif; color: var(--text-muted); }
+    .eye-btn { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-secondary); border-radius: var(--radius); padding: 0 10px; cursor: pointer; font-size: 14px; }
+    .eye-btn:hover { color: var(--text-primary); }
+    .modal-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .modal-hint { margin-top: 14px; padding: 10px 14px; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); border-radius: var(--radius); font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+    .key-status { margin-top: 10px; font-size: 13px; min-height: 20px; }
+
+    /* ── Main Layout ── */
+    main { max-width: 1100px; margin: 0 auto; padding: 28px 24px; }
+
+    /* ── Tabs ── */
+    .tabs { display: flex; gap: 4px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 4px; margin-bottom: 24px; width: fit-content; }
+    .tab { background: transparent; border: none; color: var(--text-secondary); padding: 8px 20px; border-radius: var(--radius); cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.15s; display: flex; align-items: center; gap: 8px; }
+    .tab:hover { color: var(--text-primary); background: rgba(255,255,255,0.05); }
+    .tab.active { background: var(--accent); color: #fff; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ── Card ── */
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; margin-bottom: 20px; }
+    .card-title { font-size: 14px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* ── File Upload ── */
+    .upload-zone { display: flex; align-items: center; gap: 12px; border: 2px dashed var(--border); border-radius: var(--radius); padding: 11px 14px; cursor: pointer; margin-bottom: 12px; transition: border-color 0.15s, background 0.15s; color: var(--text-secondary); font-size: 13px; }
+    .upload-zone:hover, .upload-zone.dragover { border-color: var(--accent); background: var(--accent-light); color: var(--text-primary); }
+    .upload-zone input[type=file] { display: none; }
+    .upload-badge { margin-left: auto; font-size: 11px; color: var(--text-muted); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 4px; padding: 2px 7px; }
+    .upload-zone.file-loaded { border-color: rgba(63,185,80,0.5); background: rgba(63,185,80,0.05); color: var(--low); }
+
+    /* ── Form ── */
+    .input-row { display: flex; gap: 12px; align-items: flex-end; margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.3px; }
+    select.lang-select, select.action-select { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-primary); border-radius: var(--radius); padding: 8px 12px; font-size: 14px; outline: none; cursor: pointer; }
+    select:focus { border-color: var(--border-focus); }
+    textarea { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-primary); font-size: 14px; line-height: 1.7; padding: 12px 14px; resize: vertical; min-height: 130px; outline: none; font-family: inherit; transition: border-color 0.15s; }
+    textarea:focus { border-color: var(--border-focus); }
+    textarea::placeholder { color: var(--text-muted); }
+
+    /* ── Buttons ── */
+    .btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 18px; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; border: none; transition: all 0.15s; white-space: nowrap; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+    .btn-ghost:hover { color: var(--text-primary); border-color: var(--text-secondary); }
+    .btn-green { background: rgba(63,185,80,0.15); color: var(--low); border: 1px solid rgba(63,185,80,0.3); }
+    .btn-green:hover { background: rgba(63,185,80,0.25); }
+    .btn-purple { background: rgba(99,102,241,0.2); color: var(--accent-hover); border: 1px solid rgba(99,102,241,0.3); }
+    .btn-purple:hover { background: rgba(99,102,241,0.35); }
+    .btn-sm { padding: 6px 14px; font-size: 13px; }
+    .action-row { display: flex; gap: 10px; align-items: center; margin-top: 12px; flex-wrap: wrap; }
+
+    /* ── Loading ── */
+    .loading { display: none; align-items: center; gap: 12px; padding: 18px; color: var(--text-secondary); font-size: 13px; }
+    .loading.visible { display: flex; }
+    .spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Results ── */
+    .result-area { margin-top: 20px; }
+    .result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+    .result-count { font-size: 13px; color: var(--text-secondary); }
+
+    /* ── Table ── */
+    .table-wrapper { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th { background: var(--bg-secondary); color: var(--text-muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; padding: 9px 13px; text-align: left; border-bottom: 1px solid var(--border); }
+    th.check-col, td.check-td { width: 36px; text-align: center; padding: 9px 6px; vertical-align: middle; }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.02); }
+    tbody tr.selected { background: rgba(99,102,241,0.06); }
+    td { padding: 11px 13px; vertical-align: top; line-height: 1.5; }
+    td.id-col { font-family: 'SF Mono','Fira Code',monospace; font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+    td.title-col { font-weight: 500; min-width: 160px; }
+    td.pre-col { color: var(--text-secondary); min-width: 130px; }
+    td.steps-col { min-width: 180px; }
+    td.expected-col { min-width: 150px; }
+    .steps-list { padding-left: 15px; }
+    .steps-list li { margin-bottom: 2px; font-size: 12px; color: var(--text-secondary); }
+    input[type=checkbox] { width: 15px; height: 15px; cursor: pointer; accent-color: var(--accent); }
+
+    /* ── Priority Badge ── */
+    .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .badge-high { background: var(--high-bg); color: var(--high); }
+    .badge-medium { background: var(--medium-bg); color: var(--medium); }
+    .badge-low { background: var(--low-bg); color: var(--low); }
+
+    /* ── Convert Bar ── */
+    .convert-bar { display: none; align-items: center; gap: 12px; padding: 10px 14px; margin-top: 10px; background: var(--bg-secondary); border: 1px solid rgba(99,102,241,0.3); border-radius: var(--radius); flex-wrap: wrap; }
+    .convert-bar.visible { display: flex; }
+    .convert-bar .sel-label { font-size: 13px; color: var(--accent-hover); font-weight: 500; }
+
+    /* ── Code Block ── */
+    .code-container { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius); }
+    .code-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 9px 13px; border-bottom: 1px solid var(--border); }
+    .code-label { font-size: 11px; color: var(--text-muted); font-family: 'SF Mono','Fira Code',monospace; }
+    .copy-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 3px 11px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+    .copy-btn:hover { color: var(--text-primary); border-color: var(--text-secondary); }
+    .copy-btn.copied { color: var(--low); border-color: rgba(63,185,80,0.4); }
+    pre { padding: 14px; overflow-x: auto; max-height: 520px; font-family: 'SF Mono','Fira Code','Cascadia Code',monospace; font-size: 12px; line-height: 1.6; color: var(--text-primary); }
+
+    /* ── Error ── */
+    .error-msg { display: none; background: rgba(248,81,73,0.1); border: 1px solid rgba(248,81,73,0.3); color: var(--high); border-radius: var(--radius); padding: 10px 14px; font-size: 13px; margin-top: 10px; }
+    .error-msg.visible { display: block; }
+
+    @media (max-width: 768px) {
+      main { padding: 16px; } header { padding: 12px 16px; }
+      .header-brand p, .model-badge { display: none; }
+      .tabs { width: 100%; } .tab { flex: 1; justify-content: center; font-size: 12px; padding: 7px 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ Header ══════════════════════════════════════════ -->
+<header>
+  <div class="header-brand">
+    <span style="font-size:22px">🧪</span>
+    <div>
+      <h1>SQA_GenAI</h1>
+      <p>自然語言轉測試案例 AI 助手</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="key-indicator" id="key-indicator" title="API Key 狀態"></div>
+    <span class="model-badge">claude-sonnet-4-5</span>
+    <button class="settings-btn" onclick="openSettings()" title="API Key 設定">⚙️</button>
+  </div>
+</header>
+
+<!-- ══ Settings Modal ══════════════════════════════════ -->
+<div class="modal-overlay" id="settings-modal" onclick="closeSettings()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3>⚙️ API Key 設定</h3>
+      <button class="modal-close" onclick="closeSettings()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-label">Anthropic API Key</div>
+      <div class="key-row">
+        <input type="password" id="key-input" placeholder="sk-ant-api03-…" autocomplete="off" spellcheck="false">
+        <button class="eye-btn" onclick="toggleKeyVis()" id="eye-btn">👁</button>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary btn-sm" onclick="saveKey()">💾 儲存</button>
+        <button class="btn btn-green btn-sm" onclick="testKey()">🔍 測試連線</button>
+        <button class="btn btn-ghost btn-sm" onclick="clearKey()">🗑 清除</button>
+      </div>
+      <div class="key-status" id="key-status"></div>
+      <div class="modal-hint">
+        Key 儲存於瀏覽器 <code>localStorage</code>，不會上傳至伺服器以外。<br>
+        若伺服器 <code>.env</code> 已設定 <code>ANTHROPIC_API_KEY</code>，此處留空也可運作。<br>
+        不同裝置或不同使用者可各自設定自己的 Key。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Main ════════════════════════════════════════════ -->
+<main>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('testcase')">📋 Test Case</button>
+    <button class="tab" onclick="switchTab('gherkin')">🥒 Gherkin</button>
+    <button class="tab" onclick="switchTab('apitest')">🔧 API Test</button>
+  </div>
+
+  <!-- ─── Test Case Tab ─────────────────────────────── -->
+  <div id="tab-testcase" class="tab-content active">
+    <div class="card">
+      <div class="card-title">📝 需求輸入</div>
+      <div class="upload-zone" id="upload-zone"
+           onclick="document.getElementById('tc-file').click()"
+           ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+        <input type="file" id="tc-file" accept=".csv,.xlsx,.xls" onchange="handleFile(this.files[0])">
+        <span>📂</span>
+        <span id="upload-label">匯入需求檔案（拖曳或點擊）</span>
+        <span class="upload-badge">.xlsx &nbsp;/&nbsp; .csv</span>
+      </div>
+      <div class="input-row">
+        <div class="form-group">
+          <label for="tc-language">輸出語言</label>
+          <select id="tc-language" class="lang-select">
+            <option value="zh">繁體中文</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </div>
+      <textarea id="tc-input" rows="5"
+        placeholder="輸入需求描述，或從上方匯入 Excel / CSV 檔案…
+
+例如：使用者登入功能，帳號密碼驗證，失敗 5 次鎖定帳號 15 分鐘。"></textarea>
+      <div class="action-row">
+        <button class="btn btn-primary" onclick="generateTestCase()" id="tc-btn">✨ 生成測試案例</button>
+        <button class="btn btn-green" onclick="exportCSV()" id="tc-export" style="display:none">⬇ 匯出 CSV</button>
+      </div>
+      <div class="error-msg" id="tc-error"></div>
+    </div>
+
+    <div class="loading" id="tc-loading">
+      <div class="spinner"></div>
+      <span id="tc-loading-msg">AI 正在分析需求並生成測試案例，請稍候…</span>
+    </div>
+
+    <div class="result-area" id="tc-result" style="display:none">
+      <div class="result-header">
+        <span class="result-count" id="tc-count"></span>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th class="check-col"><input type="checkbox" id="select-all" title="全選" onchange="toggleSelectAll(this)"></th>
+              <th>ID</th><th>測試項目</th><th>前置條件</th><th>測試步驟</th><th>預期結果</th><th>優先級</th>
+            </tr>
+          </thead>
+          <tbody id="tc-tbody"></tbody>
+        </table>
+      </div>
+      <!-- Convert Bar -->
+      <div class="convert-bar" id="convert-bar">
+        <span class="sel-label" id="sel-label">已選 0 個</span>
+        <span style="color:var(--border)">|</span>
+        <span style="font-size:13px;color:var(--text-secondary)">轉換為：</span>
+        <select class="action-select" id="convert-action">
+          <option value="">— 選擇 —</option>
+          <option value="gherkin">🥒 Gherkin</option>
+          <option value="apitest">🔧 API Test（pytest）</option>
+        </select>
+        <button class="btn btn-purple btn-sm" onclick="executeConvert()">執行</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Gherkin Tab ───────────────────────────────── -->
+  <div id="tab-gherkin" class="tab-content">
+    <div class="card">
+      <div class="card-title">🥒 User Story 輸入</div>
+      <textarea id="gherkin-input" rows="6"
+        placeholder="貼上 User Story，例如：&#10;身為電商顧客，我希望可以將商品加入購物車，以便一次結帳多件商品。&#10;&#10;驗收條件：&#10;- 可新增商品&#10;- 可修改數量&#10;- 不超過 20 件"></textarea>
+      <div class="action-row">
+        <button class="btn btn-primary" onclick="generateGherkin()" id="gherkin-btn">✨ 轉換 Gherkin</button>
+      </div>
+      <div class="error-msg" id="gherkin-error"></div>
+    </div>
+    <div class="loading" id="gherkin-loading"><div class="spinner"></div><span id="gherkin-loading-msg">轉換中…</span></div>
+    <div class="result-area" id="gherkin-result" style="display:none">
+      <div class="code-container">
+        <div class="code-toolbar">
+          <span class="code-label" id="gherkin-src-label">gherkin</span>
+          <button class="copy-btn" onclick="copyCode('gherkin-code',this)">📋 複製</button>
+        </div>
+        <pre id="gherkin-code"></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── API Test Tab ──────────────────────────────── -->
+  <div id="tab-apitest" class="tab-content">
+    <div class="card">
+      <div class="card-title">🔧 API 規格輸入</div>
+      <textarea id="api-input" rows="7"
+        placeholder="貼上 API 規格或 Swagger YAML，例如：&#10;POST /api/v1/users&#10;&#10;Request Body:&#10;  - username (string, required, 3-20字元)&#10;  - email (string, required)&#10;  - password (string, required, min 8字元)&#10;&#10;Response: 201 建立成功 / 400 格式錯誤 / 409 帳號已存在"></textarea>
+      <div class="action-row">
+        <button class="btn btn-primary" onclick="generateApiTest()" id="api-btn">✨ 生成 pytest 程式碼</button>
+      </div>
+      <div class="error-msg" id="api-error"></div>
+    </div>
+    <div class="loading" id="api-loading"><div class="spinner"></div><span id="api-loading-msg">生成中…</span></div>
+    <div class="result-area" id="api-result" style="display:none">
+      <div class="code-container">
+        <div class="code-toolbar">
+          <span class="code-label" id="api-src-label">python · pytest</span>
+          <button class="copy-btn" onclick="copyCode('api-code',this)">📋 複製</button>
+        </div>
+        <pre id="api-code"></pre>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// ── State ──────────────────────────────────────────────
+let tcData = [];
+
+// ── API Key Helpers ────────────────────────────────────
+const KEY_STORE = 'sqa_genai_api_key';
+
+function getStoredKey() { return localStorage.getItem(KEY_STORE) || ''; }
+
+function apiHeaders(extra = {}) {
+  const h = { 'Content-Type': 'application/json', ...extra };
+  const k = getStoredKey();
+  if (k) h['X-API-Key'] = k;
+  return h;
+}
+
+function updateKeyIndicator() {
+  const ind = document.getElementById('key-indicator');
+  const k = getStoredKey();
+  ind.className = 'key-indicator' + (k ? ' active' : ' env');
+  ind.title = k ? 'API Key 已設定（localStorage）' : '使用伺服器 .env Key';
+}
+
+// ── Settings Modal ─────────────────────────────────────
+function openSettings() {
+  document.getElementById('key-input').value = getStoredKey();
+  document.getElementById('key-status').textContent = '';
+  document.getElementById('settings-modal').classList.add('open');
+}
+function closeSettings() { document.getElementById('settings-modal').classList.remove('open'); }
+
+function toggleKeyVis() {
+  const inp = document.getElementById('key-input');
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  document.getElementById('eye-btn').textContent = show ? '🙈' : '👁';
+}
+
+function saveKey() {
+  const k = document.getElementById('key-input').value.trim();
+  if (k) { localStorage.setItem(KEY_STORE, k); setKeyStatus('✅ 已儲存', 'var(--low)'); }
+  else { localStorage.removeItem(KEY_STORE); setKeyStatus('🗑 已清除（改用伺服器 .env）', 'var(--medium)'); }
+  updateKeyIndicator();
+}
+
+function clearKey() {
+  localStorage.removeItem(KEY_STORE);
+  document.getElementById('key-input').value = '';
+  setKeyStatus('🗑 已清除', 'var(--medium)');
+  updateKeyIndicator();
+}
+
+async function testKey() {
+  const k = document.getElementById('key-input').value.trim();
+  setKeyStatus('⏳ 測試中…', 'var(--text-secondary)');
+  try {
+    const res = await fetch('/test-key', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(k ? { 'X-API-Key': k } : {}) }
+    });
+    const data = await res.json();
+    if (res.ok) setKeyStatus(data.message, 'var(--low)');
+    else setKeyStatus('❌ ' + data.detail, 'var(--high)');
+  } catch (e) { setKeyStatus('❌ 連線失敗：' + e.message, 'var(--high)'); }
+}
+
+function setKeyStatus(msg, color) {
+  const el = document.getElementById('key-status');
+  el.textContent = msg;
+  el.style.color = color;
+}
+
+// ── Tab ────────────────────────────────────────────────
+function switchTab(name) {
+  const names = ['testcase', 'gherkin', 'apitest'];
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', names[i] === name));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ── Loading / Error ────────────────────────────────────
+function setLoading(p, on, msg) {
+  document.getElementById(p + '-loading').classList.toggle('visible', on);
+  const btn = document.getElementById(p + '-btn');
+  if (btn) btn.disabled = on;
+  if (msg) { const m = document.getElementById(p + '-loading-msg'); if (m) m.textContent = msg; }
+}
+function showError(p, msg) { const e = document.getElementById(p + '-error'); e.textContent = '❌ ' + msg; e.classList.add('visible'); }
+function clearError(p) { document.getElementById(p + '-error').classList.remove('visible'); }
+
+// ── File Import ────────────────────────────────────────
+function onDragOver(e) { e.preventDefault(); document.getElementById('upload-zone').classList.add('dragover'); }
+function onDragLeave() { document.getElementById('upload-zone').classList.remove('dragover'); }
+function onDrop(e) { e.preventDefault(); document.getElementById('upload-zone').classList.remove('dragover'); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }
+
+async function handleFile(file) {
+  if (!file) return;
+  const label = document.getElementById('upload-label');
+  const zone = document.getElementById('upload-zone');
+  label.textContent = '⏳ 解析中…';
+  const fd = new FormData(); fd.append('file', file);
+  try {
+    const res = await fetch('/upload/file', { method: 'POST', body: fd });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.detail); }
+    const data = await res.json();
+    document.getElementById('tc-input').value = data.text;
+    label.textContent = '✅ ' + file.name + '（' + data.rows + ' 行）';
+    zone.classList.add('file-loaded');
+  } catch (e) { label.textContent = '❌ ' + e.message; zone.classList.remove('file-loaded'); }
+}
+
+// ── Generate Test Cases ────────────────────────────────
+async function generateTestCase() {
+  const input = document.getElementById('tc-input').value.trim();
+  if (!input) { showError('tc', '請輸入需求描述或匯入檔案'); return; }
+  clearError('tc');
+  document.getElementById('tc-result').style.display = 'none';
+  document.getElementById('tc-export').style.display = 'none';
+  document.getElementById('convert-bar').classList.remove('visible');
+  document.getElementById('select-all').checked = false;
+  setLoading('tc', true, 'AI 正在分析需求並生成測試案例，請稍候…');
+  try {
+    const res = await fetch('/generate/testcase', {
+      method: 'POST', headers: apiHeaders(),
+      body: JSON.stringify({ input_text: input, language: document.getElementById('tc-language').value })
+    });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.detail); }
+    tcData = await res.json();
+    renderTable(tcData);
+  } catch (e) { showError('tc', e.message); }
+  finally { setLoading('tc', false); }
+}
+
+// ── Render Table ───────────────────────────────────────
+function renderTable(data) {
+  const tbody = document.getElementById('tc-tbody');
+  tbody.innerHTML = '';
+  data.forEach((tc, idx) => {
+    const steps = Array.isArray(tc.steps)
+      ? '<ul class="steps-list">' + tc.steps.map(s => '<li>' + escH(s) + '</li>').join('') + '</ul>'
+      : escH(String(tc.steps || ''));
+    const p = tc.priority || 'Medium';
+    const cls = p === 'High' ? 'badge-high' : p === 'Low' ? 'badge-low' : 'badge-medium';
+    const dot = p === 'High' ? '🔴' : p === 'Low' ? '🟢' : '🟡';
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td class="check-td"><input type="checkbox" class="tc-check" data-idx="${idx}" onchange="onCheck()"></td>
+      <td class="id-col">${escH(tc.id||'')}</td>
+      <td class="title-col">${escH(tc.title||'')}</td>
+      <td class="pre-col">${escH(tc.precondition||'')}</td>
+      <td class="steps-col">${steps}</td>
+      <td class="expected-col">${escH(tc.expected||'')}</td>
+      <td><span class="badge ${cls}">${dot} ${p}</span></td>`;
+    tbody.appendChild(row);
+  });
+  document.getElementById('tc-count').textContent = '共 ' + data.length + ' 個測試案例';
+  document.getElementById('tc-result').style.display = 'block';
+  document.getElementById('tc-export').style.display = 'inline-flex';
+}
+
+// ── Checkbox ───────────────────────────────────────────
+function toggleSelectAll(el) {
+  document.querySelectorAll('.tc-check').forEach(cb => { cb.checked = el.checked; cb.closest('tr').classList.toggle('selected', el.checked); });
+  updateConvertBar();
+}
+function onCheck() {
+  const all = document.querySelectorAll('.tc-check'), checked = document.querySelectorAll('.tc-check:checked');
+  document.getElementById('select-all').checked = all.length > 0 && checked.length === all.length;
+  document.querySelectorAll('.tc-check').forEach(cb => cb.closest('tr').classList.toggle('selected', cb.checked));
+  updateConvertBar();
+}
+function updateConvertBar() {
+  const n = document.querySelectorAll('.tc-check:checked').length;
+  document.getElementById('convert-bar').classList.toggle('visible', n > 0);
+  document.getElementById('sel-label').textContent = '已選 ' + n + ' 個案例';
+}
+function getSelected() {
+  return Array.from(document.querySelectorAll('.tc-check:checked')).map(cb => tcData[parseInt(cb.dataset.idx)]);
+}
+
+// ── Execute Convert ────────────────────────────────────
+async function executeConvert() {
+  const action = document.getElementById('convert-action').value;
+  if (!action) { alert('請先選擇要轉換的目標格式'); return; }
+  const selected = getSelected();
+  if (!selected.length) return;
+
+  if (action === 'gherkin') {
+    switchTab('gherkin');
+    document.getElementById('gherkin-result').style.display = 'none';
+    document.getElementById('gherkin-src-label').textContent = 'gherkin · 從 Test Case 轉換';
+    setLoading('gherkin', true, '將選取的測試案例轉換為 Gherkin 格式…');
+    clearError('gherkin');
+    try {
+      const res = await fetch('/convert/to-gherkin', { method: 'POST', headers: apiHeaders(), body: JSON.stringify({ test_cases: selected }) });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.detail); }
+      document.getElementById('gherkin-code').textContent = (await res.json()).gherkin;
+      document.getElementById('gherkin-result').style.display = 'block';
+    } catch (e) { showError('gherkin', e.message); }
+    finally { setLoading('gherkin', false); }
+
+  } else {
+    switchTab('apitest');
+    document.getElementById('api-result').style.display = 'none';
+    document.getElementById('api-src-label').textContent = 'python · pytest · 從 Test Case 轉換';
+    setLoading('api', true, '將選取的測試案例轉換為 pytest 程式碼…');
+    clearError('api');
+    try {
+      const res = await fetch('/convert/to-api-test', { method: 'POST', headers: apiHeaders(), body: JSON.stringify({ test_cases: selected }) });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.detail); }
+      document.getElementById('api-code').textContent = (await res.json()).pytest_code;
+      document.getElementById('api-result').style.display = 'block';
+    } catch (e) { showError('api', e.message); }
+    finally { setLoading('api', false); }
+  }
+}
+
+// ── Export CSV ─────────────────────────────────────────
+function exportCSV() {
+  if (!tcData.length) return;
+  const hdr = ['ID','測試項目','前置條件','測試步驟','預期結果','優先級'];
+  const rows = tcData.map(tc => [tc.id||'', tc.title||'', tc.precondition||'',
+    Array.isArray(tc.steps) ? tc.steps.join(' | ') : (tc.steps||''), tc.expected||'', tc.priority||'']
+    .map(v => '"' + String(v).replace(/"/g,'""') + '"'));
+  const blob = new Blob(['﻿' + [hdr.map(h=>'"'+h+'"'), ...rows].join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'testcases_' + new Date().toISOString().slice(0,10) + '.csv' });
+  a.click(); URL.revokeObjectURL(a.href);
+}
+
+// ── Generate Gherkin ───────────────────────────────────
+async function generateGherkin() {
+  const input = document.getElementById('gherkin-input').value.trim();
+  if (!input) { showError('gherkin', '請輸入 User Story'); return; }
+  clearError('gherkin');
+  document.getElementById('gherkin-result').style.display = 'none';
+  document.getElementById('gherkin-src-label').textContent = 'gherkin';
+  setLoading('gherkin', true, '將 User Story 轉換為 Gherkin 格式…');
+  try {
+    const res = await fetch('/generate/gherkin', { method: 'POST', headers: apiHeaders(), body: JSON.stringify({ input_text: input }) });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.detail); }
+    document.getElementById('gherkin-code').textContent = (await res.json()).gherkin;
+    document.getElementById('gherkin-result').style.display = 'block';
+  } catch (e) { showError('gherkin', e.message); }
+  finally { setLoading('gherkin', false); }
+}
+
+// ── Generate API Test ──────────────────────────────────
+async function generateApiTest() {
+  const input = document.getElementById('api-input').value.trim();
+  if (!input) { showError('api', '請輸入 API 規格描述'); return; }
+  clearError('api');
+  document.getElementById('api-result').style.display = 'none';
+  document.getElementById('api-src-label').textContent = 'python · pytest';
+  setLoading('api', true, '根據 API 規格生成測試程式碼…');
+  try {
+    const res = await fetch('/generate/api-testcase', { method: 'POST', headers: apiHeaders(), body: JSON.stringify({ input_text: input }) });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.detail); }
+    let code = (await res.json()).pytest_code;
+    code = code.replace(/^```python\n?/i,'').replace(/^```\n?/,'').replace(/\n?```$/,'');
+    document.getElementById('api-code').textContent = code;
+    document.getElementById('api-result').style.display = 'block';
+  } catch (e) { showError('api', e.message); }
+  finally { setLoading('api', false); }
+}
+
+// ── Copy ───────────────────────────────────────────────
+async function copyCode(id, btn) {
+  try { await navigator.clipboard.writeText(document.getElementById(id).textContent); }
+  catch { const ta = Object.assign(document.createElement('textarea'), { value: document.getElementById(id).textContent, style: 'position:fixed;opacity:0' }); document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
+  btn.textContent = '✅ 已複製'; btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = '📋 複製'; btn.classList.remove('copied'); }, 2000);
+}
+
+function escH(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+document.addEventListener('keydown', e => {
+  if (!e.ctrlKey || e.key !== 'Enter') return;
+  const id = document.querySelector('.tab-content.active')?.id;
+  if (id === 'tab-testcase') generateTestCase();
+  else if (id === 'tab-gherkin') generateGherkin();
+  else if (id === 'tab-apitest') generateApiTest();
+});
+
+// ── Init ───────────────────────────────────────────────
+updateKeyIndicator();
+</script>
+</body>
+</html>
