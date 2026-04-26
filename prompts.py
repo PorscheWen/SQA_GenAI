@@ -1,3 +1,14 @@
+TEST_TYPE_HINTS = {
+    "Functional":  "驗證每個功能按需求規格正確運作",
+    "Regression":  "確保既有功能在新版本後未遭破壞",
+    "Smoke":       "部署後快速驗證核心路徑可用",
+    "Unit":        "針對單一函式或模組的隔離驗證",
+    "Integration": "驗證多個模組或服務串接後的資料流",
+    "API":         "針對端點的請求/回應/狀態碼驗證",
+    "Negative":    "以非預期輸入探測系統弱點與錯誤處理",
+    "UAT":         "從終端使用者角度驗證業務流程",
+}
+
 TEST_CASE_PROMPT = """
 你是一位擁有 18 年經驗的資深 QA 工程師。
 請根據輸入的需求描述，生成完整的測試案例。
@@ -16,14 +27,15 @@ Priority 判斷標準：
 
 請依照使用者指定的數量產生測試案例，每個案例的 steps 盡量精簡（5 步驟以內）。
 回傳格式必須是純 JSON 陣列，不要有任何額外文字、不要有 markdown code block。
-每筆格式如下：
+每筆格式如下（若有指定測試類型，需加入 test_type 欄位）：
 {
   "id": "TC-001",
   "title": "測試項目標題",
   "precondition": "前置條件描述",
   "steps": ["步驟1", "步驟2", "步驟3"],
   "expected": "預期結果描述",
-  "priority": "High"
+  "priority": "High",
+  "test_type": "Functional"
 }
 """
 

@@ -8,7 +8,7 @@ import anthropic
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, Header, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
 from typing import List, Optional
 
@@ -16,6 +16,7 @@ from prompts import (
     API_TEST_PROMPT,
     GHERKIN_PROMPT,
     TEST_CASE_PROMPT,
+    TEST_TYPE_HINTS,
     TESTCASE_TO_API_PROMPT,
     TESTCASE_TO_GHERKIN_PROMPT,
 )
@@ -66,6 +67,7 @@ class TestCaseRequest(BaseModel):
     language: Optional[str] = "zh"
     max_cases: Optional[int] = 10
     context: Optional[str] = None
+    test_types: Optional[List[dict]] = None  # [{"type": "Functional", "count": 5}, ...]
 
 
 class GherkinRequest(BaseModel):
@@ -102,6 +104,23 @@ def _inject_context(base: str, context: Optional[str]) -> str:
     if context and context.strip():
         return f"【專案背景知識 / Memory】\n{context.strip()}\n\n{base}"
     return base
+
+
+def _build_type_instruction(test_types: List[dict]) -> str:
+    lines = []
+    total = 0
+    for tt in test_types:
+        t = tt.get("type", "")
+        c = max(1, min(int(tt.get("count", 5)), 50))
+        hint = TEST_TYPE_HINTS.get(t, "")
+        lines.append(f"  - {t}（{hint}）：{c} 個")
+        total += c
+    total = min(total, 50)
+    return (
+        "請依照以下測試類型分別產生測試案例，每個案例需加入 test_type 欄位標示所屬類型：\n"
+        + "\n".join(lines)
+        + f"\n總計不超過 {total} 個。"
+    )
 
 
 # ── Static ─────────────────────────────────────────────
@@ -179,10 +198,22 @@ async def generate_testcase(
     client = get_client(x_api_key)
     model = get_model(x_model)
     max_cases = max(1, min(request.max_cases or 10, 50))
+    test_types = request.test_types or []
+    ai_decide = any(tt.get("type") == "AI" for tt in test_types)
     try:
+        if ai_decide:
+            qty_instruction = (
+                f"請根據需求內容自行分析，決定最適合的測試類型組合，"
+                f"每個案例加入 test_type 欄位（可用類型：Functional / Regression / Smoke / Unit / Integration / API / Negative / UAT），"
+                f"依需求的複雜度與風險自動分配各類型數量，總計最多 {max_cases} 個測試案例。"
+            )
+        elif test_types:
+            qty_instruction = _build_type_instruction(test_types)
+        else:
+            qty_instruction = f"請產生最多 {max_cases} 個測試案例。"
         user_content = _inject_context(
             f"語言設定：{request.language}\n"
-            f"請產生最多 {max_cases} 個測試案例。\n\n"
+            f"{qty_instruction}\n\n"
             f"需求描述：\n{request.input_text}",
             request.context,
         )
@@ -199,6 +230,58 @@ async def generate_testcase(
         raise HTTPException(status_code=429, detail="API 請求頻率超限，請稍後再試")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"API 錯誤：{str(e)}")
+
+
+# ── 串流生成 Test Case ──────────────────────────────────
+@app.post("/generate/testcase/stream")
+async def generate_testcase_stream(
+    request: TestCaseRequest,
+    x_api_key: Optional[str] = Header(default=None),
+    x_model: Optional[str] = Header(default=None),
+):
+    client = get_client(x_api_key)
+    model = get_model(x_model)
+    max_cases = max(1, min(request.max_cases or 10, 50))
+    test_types = request.test_types or []
+    ai_decide = any(tt.get("type") == "AI" for tt in test_types)
+
+    if ai_decide:
+        qty_instruction = (
+            f"請根據需求內容自行分析，決定最適合的測試類型組合，"
+            f"每個案例加入 test_type 欄位（可用類型：Functional / Regression / Smoke / Unit / Integration / API / Negative / UAT），"
+            f"依需求的複雜度與風險自動分配各類型數量，總計最多 {max_cases} 個測試案例。"
+        )
+    elif test_types:
+        qty_instruction = _build_type_instruction(test_types)
+    else:
+        qty_instruction = f"請產生最多 {max_cases} 個測試案例。"
+
+    user_content = _inject_context(
+        f"語言設定：{request.language}\n{qty_instruction}\n\n需求描述：\n{request.input_text}",
+        request.context,
+    )
+
+    def stream_gen():
+        try:
+            with client.messages.stream(
+                model=model, max_tokens=8192, system=TEST_CASE_PROMPT,
+                messages=[{"role": "user", "content": user_content}],
+            ) as stream:
+                for text in stream.text_stream:
+                    yield f"data: {json.dumps({'d': text})}\n\n"
+            yield "data: [DONE]\n\n"
+        except anthropic.AuthenticationError:
+            yield f"data: {json.dumps({'error': 'API Key 無效'})}\n\n"
+        except anthropic.RateLimitError:
+            yield f"data: {json.dumps({'error': 'API 請求頻率超限，請稍後再試'})}\n\n"
+        except Exception as e:
+            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+
+    return StreamingResponse(
+        stream_gen(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
 
 
 # ── 生成 Gherkin ───────────────────────────────────────

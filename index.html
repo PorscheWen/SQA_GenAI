@@ -21,57 +21,59 @@
     /* Header */
     header { background: var(--bg2); border-bottom: 1px solid var(--bd); padding: 12px 24px; display: flex; align-items: center; gap: 12px; }
     .hbrand { display: flex; align-items: center; gap: 10px; }
-    .hbrand h1 { font-size: 17px; font-weight: 700; }
-    .hbrand p { font-size: 11px; color: var(--t2); }
+    .hbrand h1 { font-size: 26px; font-weight: 700; }
+    .hbrand p { font-size: 26px; color: var(--t2); }
     .hright { margin-left: auto; display: flex; align-items: center; gap: 8px; }
     .kind { width: 7px; height: 7px; border-radius: 50%; background: var(--t3); transition: background 0.3s; flex-shrink: 0; }
     .kind.on { background: var(--lo); box-shadow: 0 0 5px rgba(63,185,80,0.5); }
     .mind { width: 7px; height: 7px; border-radius: 50%; background: var(--t3); flex-shrink: 0; }
     .mind.on { background: var(--ac); box-shadow: 0 0 5px rgba(99,102,241,0.5); }
-    .model-badge { background: var(--acl); color: var(--ach); border: 1px solid rgba(99,102,241,0.3); border-radius: 20px; padding: 3px 10px; font-size: 11px; font-family: monospace; cursor: default; }
-    .sbtn { background: transparent; border: 1px solid var(--bd); color: var(--t2); width: 30px; height: 30px; border-radius: var(--r); cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+    .model-badge { background: var(--acl); color: var(--ach); border: 1px solid rgba(99,102,241,0.45); border-radius: 20px; padding: 5px 14px; font-size: 21px; font-family: monospace; font-weight: 700; cursor: default; letter-spacing: 0.3px; box-shadow: 0 0 8px rgba(99,102,241,0.2); }
+    .sbtn { background: transparent; border: 1px solid var(--bd); color: var(--t2); width: 42px; height: 42px; border-radius: var(--r); cursor: pointer; font-size: 21px; display: flex; align-items: center; justify-content: center; }
     .sbtn:hover { border-color: var(--ac); color: var(--t1); background: var(--acl); }
+    .sbtn-gear { background: rgba(255,165,0,0.13); border-color: rgba(255,165,0,0.5); color: #f0a030; font-size: 24px; width: 46px; height: 46px; }
+    .sbtn-gear:hover { background: rgba(255,165,0,0.28); border-color: #f0a030; color: #ffbb44; }
 
     /* Modal */
     .mo { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 200; align-items: flex-start; justify-content: center; padding-top: 60px; overflow-y: auto; }
     .mo.open { display: flex; }
     .mbox { background: var(--bg3); border: 1px solid var(--bd); border-radius: var(--rl); width: 520px; max-width: 95vw; margin-bottom: 40px; }
     .mhead { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 12px; border-bottom: 1px solid var(--bd); }
-    .mhead h3 { font-size: 14px; font-weight: 600; }
-    .mcls { background: none; border: none; color: var(--t3); font-size: 16px; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
+    .mhead h3 { font-size: 21px; font-weight: 600; }
+    .mcls { background: none; border: none; color: var(--t3); font-size: 24px; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
     .mcls:hover { color: var(--t1); background: rgba(255,255,255,0.07); }
     .mbody { padding: 18px 20px; display: flex; flex-direction: column; gap: 18px; }
 
     /* Settings sections */
     .sec { display: flex; flex-direction: column; gap: 8px; }
-    .sec-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--t2); padding-bottom: 6px; border-bottom: 1px solid var(--bd); }
+    .sec-title { font-size: 26px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--t2); padding-bottom: 6px; border-bottom: 1px solid var(--bd); }
     .row2 { display: flex; gap: 8px; }
-    .row2 input, .row2 select { flex: 1; background: var(--bg4); border: 1px solid var(--bd); color: var(--t1); border-radius: var(--r); padding: 8px 11px; font-size: 13px; outline: none; }
+    .row2 input, .row2 select { flex: 1; background: var(--bg4); border: 1px solid var(--bd); color: var(--t1); border-radius: var(--r); padding: 8px 11px; font-size: 20px; outline: none; }
     .row2 input:focus, .row2 select:focus { border-color: var(--bdf); }
     .row2 input::placeholder { color: var(--t3); font-family: sans-serif; }
-    .eye { background: var(--bg4); border: 1px solid var(--bd); color: var(--t2); border-radius: var(--r); padding: 0 10px; cursor: pointer; font-size: 13px; }
-    select.msel { background: var(--bg4); border: 1px solid var(--bd); color: var(--t1); border-radius: var(--r); padding: 8px 11px; font-size: 13px; outline: none; width: 100%; cursor: pointer; }
+    .eye { background: var(--bg4); border: 1px solid var(--bd); color: var(--t2); border-radius: var(--r); padding: 0 10px; cursor: pointer; font-size: 20px; }
+    select.msel { background: var(--bg4); border: 1px solid var(--bd); color: var(--t1); border-radius: var(--r); padding: 8px 11px; font-size: 20px; outline: none; width: 100%; cursor: pointer; }
     select.msel:focus { border-color: var(--bdf); }
-    .model-desc { font-size: 11px; color: var(--t3); margin-top: 2px; }
-    textarea.mta { width: 100%; background: var(--bg4); border: 1px solid var(--bd); color: var(--t1); border-radius: var(--r); padding: 10px 12px; font-size: 12px; line-height: 1.6; resize: vertical; min-height: 100px; outline: none; font-family: 'SF Mono',monospace; }
+    .model-desc { font-size: 26px; color: var(--t3); margin-top: 2px; }
+    textarea.mta { width: 100%; background: var(--bg4); border: 1px solid var(--bd); color: var(--t1); border-radius: var(--r); padding: 10px 12px; font-size: 18px; line-height: 1.6; resize: vertical; min-height: 100px; outline: none; font-family: 'SF Mono',monospace; }
     textarea.mta:focus { border-color: var(--bdf); }
     textarea.mta::placeholder { font-family: sans-serif; color: var(--t3); }
     .btns { display: flex; gap: 7px; flex-wrap: wrap; }
-    .mstatus { font-size: 12px; min-height: 18px; }
-    .hint { font-size: 11px; color: var(--t3); line-height: 1.6; background: rgba(99,102,241,0.07); border: 1px solid rgba(99,102,241,0.2); border-radius: var(--r); padding: 9px 12px; }
+    .mstatus { font-size: 18px; min-height: 18px; }
+    .hint { font-size: 26px; color: var(--t3); line-height: 1.6; background: rgba(99,102,241,0.07); border: 1px solid rgba(99,102,241,0.2); border-radius: var(--r); padding: 9px 12px; }
 
     /* Skills chips */
     .skills-row { display: flex; gap: 6px; flex-wrap: wrap; }
-    .skill-chip { background: var(--bg2); border: 1px solid var(--bd); color: var(--t2); border-radius: 20px; padding: 4px 12px; font-size: 12px; cursor: pointer; transition: all 0.12s; }
+    .skill-chip { background: var(--bg2); border: 1px solid var(--bd); color: var(--t2); border-radius: 20px; padding: 4px 12px; font-size: 18px; cursor: pointer; transition: all 0.12s; }
     .skill-chip:hover { border-color: var(--ac); color: var(--ach); background: var(--acl); }
 
     /* Import file btn */
-    .file-label { display: inline-flex; align-items: center; gap: 6px; background: var(--bg2); border: 1px solid var(--bd); color: var(--t2); border-radius: var(--r); padding: 6px 12px; font-size: 12px; cursor: pointer; transition: all 0.12s; }
+    .file-label { display: inline-flex; align-items: center; gap: 6px; background: var(--bg2); border: 1px solid var(--bd); color: var(--t2); border-radius: var(--r); padding: 6px 12px; font-size: 18px; cursor: pointer; transition: all 0.12s; }
     .file-label:hover { border-color: var(--ac); color: var(--t1); }
     .file-label input { display: none; }
 
     /* Buttons */
-    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; border-radius: var(--r); font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all 0.13s; white-space: nowrap; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; border-radius: var(--r); font-size: 20px; font-weight: 500; cursor: pointer; border: none; transition: all 0.13s; white-space: nowrap; }
     .btn-p { background: var(--ac); color: #fff; }
     .btn-p:hover { background: var(--ach); }
     .btn-p:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -81,42 +83,48 @@
     .btn-e:hover { background: rgba(63,185,80,0.25); }
     .btn-v { background: var(--acl); color: var(--ach); border: 1px solid rgba(99,102,241,0.3); }
     .btn-v:hover { background: rgba(99,102,241,0.3); }
-    .btn-sm { padding: 5px 12px; font-size: 12px; }
+    .btn-sm { padding: 5px 12px; font-size: 18px; }
+    .btn-stop { background: var(--hi2); color: var(--hi); border: 1px solid rgba(248,81,73,0.5); }
+    .btn-stop:hover { background: rgba(248,81,73,0.3); }
 
     /* Main */
     main { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
-    .tabs { display: flex; gap: 4px; background: var(--bg2); border: 1px solid var(--bd); border-radius: var(--rl); padding: 4px; margin-bottom: 20px; width: fit-content; }
-    .tab { background: transparent; border: none; color: var(--t2); padding: 7px 18px; border-radius: var(--r); cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.13s; }
+    .tabs { display: flex; gap: 4px; background: var(--bg2); border: 1px solid var(--bd); border-radius: var(--rl); padding: 4px; width: fit-content; }
+    .topbar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+    .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .lang-sel { background: var(--bg2); border: 1px solid var(--bd); color: var(--t1); border-radius: var(--r); padding: 7px 12px; font-size: 20px; outline: none; cursor: pointer; transition: border-color 0.13s; }
+    .lang-sel:hover, .lang-sel:focus { border-color: var(--ac); }
+    .tab { background: transparent; border: none; color: var(--t2); padding: 7px 18px; border-radius: var(--r); cursor: pointer; font-size: 20px; font-weight: 500; transition: all 0.13s; }
     .tab:hover { color: var(--t1); background: rgba(255,255,255,0.05); }
     .tab.active { background: var(--ac); color: #fff; }
     .tc { display: none; }
     .tc.active { display: block; }
     .card { background: var(--bg3); border: 1px solid var(--bd); border-radius: var(--rl); padding: 20px; margin-bottom: 18px; }
-    .ctitle { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--t2); margin-bottom: 14px; }
+    .ctitle { font-size: 26px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--t2); margin-bottom: 14px; }
 
     /* Upload zone */
-    .uzone { display: flex; align-items: center; gap: 10px; border: 2px dashed var(--bd); border-radius: var(--r); padding: 10px 14px; cursor: pointer; margin-bottom: 10px; transition: all 0.13s; color: var(--t2); font-size: 13px; }
+    .uzone { display: flex; align-items: center; gap: 10px; border: 2px dashed var(--bd); border-radius: var(--r); padding: 10px 14px; cursor: pointer; margin-bottom: 10px; transition: all 0.13s; color: var(--t2); font-size: 20px; }
     .uzone:hover, .uzone.drag { border-color: var(--ac); background: var(--acl); color: var(--t1); }
     .uzone input { display: none; }
-    .ubadge { margin-left: auto; font-size: 11px; color: var(--t3); background: var(--bg2); border: 1px solid var(--bd); border-radius: 4px; padding: 1px 6px; }
+    .ubadge { margin-left: auto; font-size: 26px; color: var(--t3); background: var(--bg2); border: 1px solid var(--bd); border-radius: 4px; padding: 1px 6px; }
     .uzone.ok { border-color: rgba(63,185,80,0.5); background: var(--lo2); color: var(--lo); }
 
     /* Form */
     .frow { display: flex; gap: 12px; align-items: flex-end; margin-bottom: 10px; flex-wrap: wrap; }
-    .fg label { display: block; font-size: 11px; color: var(--t2); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.3px; }
-    .fsel { background: var(--bg4); border: 1px solid var(--bd); color: var(--t1); border-radius: var(--r); padding: 7px 11px; font-size: 13px; outline: none; cursor: pointer; }
+    .fg label { display: block; font-size: 26px; color: var(--t1); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.3px; font-weight: 600; }
+    .fsel { background: var(--bg4); border: 1px solid var(--bd); color: var(--t1); border-radius: var(--r); padding: 7px 11px; font-size: 20px; outline: none; cursor: pointer; }
     .fsel:focus { border-color: var(--bdf); }
-    input[type=number].numinp { background: var(--bg4); border: 1px solid var(--bd); color: var(--t1); border-radius: var(--r); padding: 7px 11px; font-size: 13px; outline: none; width: 80px; text-align: center; }
+    input[type=number].numinp { background: var(--bg4); border: 1px solid var(--bd); color: var(--t1); border-radius: var(--r); padding: 7px 11px; font-size: 20px; outline: none; width: 100px; text-align: center; }
     input[type=number].numinp:focus { border-color: var(--bdf); }
-    textarea.ta { width: 100%; background: var(--bg4); border: 1px solid var(--bd); border-radius: var(--r); color: var(--t1); font-size: 13px; line-height: 1.7; padding: 11px 13px; resize: vertical; min-height: 120px; outline: none; font-family: inherit; transition: border-color 0.13s; }
+    textarea.ta { width: 100%; background: var(--bg4); border: 1px solid var(--bd); border-radius: var(--r); color: var(--t1); font-size: 20px; line-height: 1.7; padding: 11px 13px; resize: vertical; min-height: 120px; outline: none; font-family: inherit; transition: border-color 0.13s; }
     textarea.ta:focus { border-color: var(--bdf); }
     textarea.ta::placeholder { color: var(--t3); }
     .arow { display: flex; gap: 9px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
-    .err { display: none; background: var(--hi2); border: 1px solid rgba(248,81,73,0.3); color: var(--hi); border-radius: var(--r); padding: 9px 13px; font-size: 12px; margin-top: 8px; }
+    .err { display: none; background: var(--hi2); border: 1px solid rgba(248,81,73,0.3); color: var(--hi); border-radius: var(--r); padding: 9px 13px; font-size: 18px; margin-top: 8px; }
     .err.on { display: block; }
 
     /* Loading */
-    .ld { display: none; align-items: center; gap: 10px; padding: 16px; color: var(--t2); font-size: 13px; }
+    .ld { display: none; align-items: center; gap: 10px; padding: 16px; color: var(--t2); font-size: 20px; }
     .ld.on { display: flex; }
     .spin { width: 16px; height: 16px; border: 2px solid var(--bd); border-top-color: var(--ac); border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -124,25 +132,25 @@
     /* Table */
     .tres { margin-top: 18px; }
     .rhead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 6px; }
-    .rcnt { font-size: 12px; color: var(--t2); }
+    .rcnt { font-size: 18px; color: var(--t2); }
     .tw { overflow-x: auto; border-radius: var(--r); border: 1px solid var(--bd); }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    thead th { background: var(--bg2); color: var(--t3); font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--bd); }
+    table { width: 100%; border-collapse: collapse; font-size: 20px; }
+    thead th { background: var(--bg2); color: var(--t3); font-weight: 600; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--bd); }
     th.ck, td.cktd { width: 34px; text-align: center; padding: 8px 5px; vertical-align: middle; }
     tbody tr { border-bottom: 1px solid var(--bd); transition: background 0.1s; }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: rgba(255,255,255,0.02); }
     tbody tr.sel { background: rgba(99,102,241,0.06); }
     td { padding: 10px 12px; vertical-align: top; line-height: 1.5; }
-    td.idc { font-family: monospace; font-size: 11px; color: var(--t3); white-space: nowrap; }
+    td.idc { font-family: monospace; font-size: 26px; color: var(--t3); white-space: nowrap; }
     td.ttc { font-weight: 500; min-width: 150px; }
-    td.prc { color: var(--t2); min-width: 120px; font-size: 12px; }
+    td.prc { color: var(--t2); min-width: 120px; font-size: 18px; }
     td.stc { min-width: 170px; }
     td.exc { min-width: 140px; }
     .sl { padding-left: 14px; }
-    .sl li { margin-bottom: 2px; font-size: 11px; color: var(--t2); }
+    .sl li { margin-bottom: 2px; font-size: 26px; color: var(--t2); }
     input[type=checkbox] { width: 14px; height: 14px; cursor: pointer; accent-color: var(--ac); }
-    .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 20px; font-size: 26px; font-weight: 600; }
     .bh { background: var(--hi2); color: var(--hi); }
     .bm { background: var(--me2); color: var(--me); }
     .bl { background: var(--lo2); color: var(--lo); }
@@ -150,17 +158,38 @@
     /* Convert bar */
     .cvbar { display: none; align-items: center; gap: 10px; padding: 9px 13px; margin-top: 9px; background: var(--bg2); border: 1px solid rgba(99,102,241,0.3); border-radius: var(--r); flex-wrap: wrap; }
     .cvbar.on { display: flex; }
-    .cvlb { font-size: 12px; color: var(--ach); font-weight: 500; }
-    .acsel { background: var(--bg4); border: 1px solid var(--bd); color: var(--t1); border-radius: var(--r); padding: 6px 10px; font-size: 13px; outline: none; cursor: pointer; }
+    .cvlb { font-size: 18px; color: var(--ach); font-weight: 500; }
+    .acsel { background: var(--bg4); border: 1px solid var(--bd); color: var(--t1); border-radius: var(--r); padding: 6px 10px; font-size: 20px; outline: none; cursor: pointer; }
 
     /* Code block */
     .cbox { background: var(--bg2); border: 1px solid var(--bd); border-radius: var(--r); }
     .ctbar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid var(--bd); }
-    .clbl { font-size: 11px; color: var(--t3); font-family: monospace; }
-    .cpbtn { background: transparent; border: 1px solid var(--bd); color: var(--t2); padding: 3px 10px; border-radius: 5px; font-size: 11px; cursor: pointer; }
+    .clbl { font-size: 26px; color: var(--t3); font-family: monospace; }
+    .cpbtn { background: transparent; border: 1px solid var(--bd); color: var(--t2); padding: 3px 10px; border-radius: 5px; font-size: 26px; cursor: pointer; }
     .cpbtn:hover { color: var(--t1); }
     .cpbtn.ok { color: var(--lo); border-color: rgba(63,185,80,0.4); }
-    pre { padding: 13px; overflow-x: auto; max-height: 500px; font-family: 'SF Mono','Fira Code',monospace; font-size: 12px; line-height: 1.6; color: var(--t1); }
+    pre { padding: 13px; overflow-x: auto; max-height: 500px; font-family: 'SF Mono','Fira Code',monospace; font-size: 18px; line-height: 1.6; color: var(--t1); }
+
+    /* Test Type Selector */
+    .ttype-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 10px; }
+    .ttype-row { display: flex; align-items: center; gap: 10px; padding: 7px 11px; border: 1px solid var(--bd); border-radius: var(--r); cursor: pointer; transition: all 0.12s; user-select: none; }
+    .ttype-row:hover { border-color: var(--ac); background: rgba(99,102,241,0.05); }
+    .ttype-row.active { border-color: var(--ac); background: var(--acl); }
+    .ttype-row-ai { grid-column: 1 / -1; border-color: rgba(99,102,241,0.35); background: rgba(99,102,241,0.05); }
+    .ttype-row-ai.active { border-color: var(--ac); background: var(--acl); box-shadow: 0 0 0 1px rgba(99,102,241,0.25); }
+    .ttype-row.disabled { opacity: 0.28; pointer-events: none; }
+    .ttype-row input[type=checkbox] { width: 14px; height: 14px; accent-color: var(--ac); cursor: pointer; flex-shrink: 0; pointer-events: none; }
+    .ttype-name { font-size: 20px; font-weight: 600; min-width: 96px; }
+    .ttype-desc { font-size: 18px; color: var(--t2); flex: 1; }
+    .ttype-cnt { display: none; align-items: center; gap: 6px; }
+    .ttype-row.active .ttype-cnt { display: flex; }
+    .ttype-cnt span { font-size: 26px; color: var(--t3); }
+    .ttype-cnt input { width: 54px; background: var(--bg4); border: 1px solid var(--bd); color: var(--t1); border-radius: 5px; padding: 3px 7px; font-size: 18px; text-align: center; outline: none; }
+    .ttype-cnt input:focus { border-color: var(--bdf); }
+    .ttype-total { font-size: 18px; padding: 4px 2px; display: none; }
+    .ttype-total.ok { color: var(--lo); }
+    .ttype-total.warn { color: var(--hi); }
+    .ttype-badge { display: inline-flex; align-items: center; padding: 1px 7px; border-radius: 20px; font-size: 26px; font-weight: 600; background: rgba(99,102,241,0.15); color: var(--ach); border: 1px solid rgba(99,102,241,0.3); }
 
     @media(max-width:700px) { main{padding:14px 12px;} header{padding:10px 14px;} .hbrand p,.model-badge{display:none;} .tabs{width:100%;} .tab{flex:1;text-align:center;padding:7px 6px;font-size:11px;} }
   </style>
@@ -170,14 +199,14 @@
 <!-- Header -->
 <header>
   <div class="hbrand">
-    <span style="font-size:20px">🧪</span>
+    <span style="font-size:30px">🧪</span>
     <div><h1>SQA_GenAI</h1><p>自然語言轉測試案例 AI 助手</p></div>
   </div>
   <div class="hright">
     <div class="mind" id="mind" title="Memory 狀態"></div>
     <div class="kind" id="kind" title="API Key 狀態"></div>
     <span class="model-badge" id="model-badge">claude-sonnet-4-6</span>
-    <button class="sbtn" onclick="openS()" title="設定">⚙️</button>
+    <button class="sbtn sbtn-gear" onclick="openS()" title="設定">⚙️</button>
   </div>
 </header>
 
@@ -260,16 +289,24 @@
 
 <!-- Main -->
 <main>
-  <div class="tabs">
-    <button class="tab active" onclick="sw('testcase')">📋 Test Case</button>
-    <button class="tab" onclick="sw('gherkin')">🥒 Gherkin</button>
-    <button class="tab" onclick="sw('apitest')">🔧 API Test</button>
+  <div class="topbar">
+    <div class="tabs">
+      <button class="tab active" onclick="sw('testcase')" id="tab-btn-testcase">📋 Test Case</button>
+      <button class="tab" onclick="sw('gherkin')" id="tab-btn-gherkin">🥒 Gherkin</button>
+      <button class="tab" onclick="sw('apitest')" id="tab-btn-apitest">🔧 API Test</button>
+    </div>
+    <div class="topbar-right">
+      <select id="lang" class="lang-sel" onchange="onLangChange()">
+        <option value="zh">繁體中文</option>
+        <option value="en">English</option>
+      </select>
+    </div>
   </div>
 
   <!-- ═══ Test Case ═══════════════════════════════════ -->
   <div id="tab-testcase" class="tc active">
     <div class="card">
-      <div class="ctitle">📝 需求輸入</div>
+      <div class="ctitle" id="tc-ctitle">📝 需求輸入</div>
       <!-- File import -->
       <div class="uzone" id="uzone" onclick="document.getElementById('ufile').click()"
            ondragover="dov(event)" ondragleave="dlv()" ondrop="ddr(event)">
@@ -280,17 +317,17 @@
       </div>
       <!-- Options row -->
       <div class="frow">
-        <div class="fg">
-          <label>語言</label>
-          <select id="lang" class="fsel">
-            <option value="zh">繁體中文</option>
-            <option value="en">English</option>
-          </select>
+        <div class="fg" id="maxc-wrap">
+          <label id="maxc-label" style="color:var(--t1);font-weight:600">案例總數量</label>
+          <input type="number" id="maxc" class="numinp" min="1" max="999" value="10" oninput="chkMaxc()">
         </div>
-        <div class="fg">
-          <label>案例數量</label>
-          <input type="number" id="maxc" class="numinp" min="1" max="50" value="10">
-        </div>
+      </div>
+      <div id="maxc-warn" style="display:none;font-size:18px;color:var(--hi);margin-bottom:8px;padding:6px 12px;background:var(--hi2);border:1px solid rgba(248,81,73,0.3);border-radius:6px"></div>
+      <!-- Test Type Selector -->
+      <div style="margin-bottom:12px">
+        <div id="ttype-title" class="ctitle">🎯 測試類型（選填）</div>
+        <div class="ttype-grid" id="ttype-grid"></div>
+        <div class="ttype-total" id="ttype-total"></div>
       </div>
       <textarea class="ta" id="tci" rows="5"
         placeholder="輸入需求描述，或從上方匯入 Excel / CSV 檔案…
@@ -298,6 +335,7 @@
 例：使用者登入功能，帳號密碼驗證，失敗 5 次鎖定帳號 15 分鐘。"></textarea>
       <div class="arow">
         <button class="btn btn-p" onclick="genTC()" id="tc-btn">✨ 生成測試案例</button>
+        <button class="btn btn-stop" onclick="stopAnalysis()" id="tc-stop-btn" style="display:none">🛑 停止分析</button>
         <button class="btn btn-e" onclick="expCSV()" id="tc-exp" style="display:none">⬇ 匯出 CSV</button>
       </div>
       <div class="err" id="tc-err"></div>
@@ -311,7 +349,7 @@
         <table>
           <thead><tr>
             <th class="ck"><input type="checkbox" id="sa" onchange="tsa(this)"></th>
-            <th>ID</th><th>測試項目</th><th>前置條件</th><th>步驟</th><th>預期結果</th><th>優先級</th>
+            <th>ID</th><th id="th-title">測試項目</th><th id="th-pre">前置條件</th><th id="th-steps">步驟</th><th id="th-expected">預期結果</th><th id="th-pri">優先級</th>
           </tr></thead>
           <tbody id="tc-tb"></tbody>
         </table>
@@ -319,13 +357,13 @@
       <div class="cvbar" id="cvbar">
         <span class="cvlb" id="cvlb">已選 0 個</span>
         <span style="color:var(--bd)">|</span>
-        <span style="font-size:12px;color:var(--t2)">轉換為：</span>
+        <span id="cv-label" style="font-size:12px;color:var(--t2)">轉換為：</span>
         <select class="acsel" id="cvact">
           <option value="">— 選擇 —</option>
           <option value="gherkin">🥒 Gherkin</option>
           <option value="apitest">🔧 API Test（pytest）</option>
         </select>
-        <button class="btn btn-v btn-sm" onclick="exCV()">執行</button>
+        <button class="btn btn-v btn-sm" id="cv-exec" onclick="exCV()">執行</button>
       </div>
     </div>
   </div>
@@ -333,11 +371,12 @@
   <!-- ═══ Gherkin ══════════════════════════════════════ -->
   <div id="tab-gherkin" class="tc">
     <div class="card">
-      <div class="ctitle">🥒 User Story 輸入</div>
+      <div class="ctitle" id="gh-ctitle">🥒 User Story 輸入</div>
       <textarea class="ta" id="ghi" rows="6"
         placeholder="貼上 User Story，例如：&#10;身為電商顧客，我希望可以將商品加入購物車。&#10;&#10;驗收條件：&#10;- 可新增商品&#10;- 可修改數量&#10;- 不超過 20 件"></textarea>
       <div class="arow">
         <button class="btn btn-p" onclick="genGH()" id="gh-btn">✨ 轉換 Gherkin</button>
+        <button class="btn btn-stop" onclick="stopAnalysis()" id="gh-stop-btn" style="display:none">🛑 停止分析</button>
       </div>
       <div class="err" id="gh-err"></div>
     </div>
@@ -353,11 +392,12 @@
   <!-- ═══ API Test ═════════════════════════════════════ -->
   <div id="tab-apitest" class="tc">
     <div class="card">
-      <div class="ctitle">🔧 API 規格輸入</div>
+      <div class="ctitle" id="api-ctitle">🔧 API 規格輸入</div>
       <textarea class="ta" id="api" rows="7"
         placeholder="貼上 API 規格或 Swagger YAML，例如：&#10;POST /api/v1/users&#10;&#10;Request: username(required,3-20), email(required), password(min 8)&#10;Response: 201 建立成功 / 400 格式錯誤 / 409 帳號已存在"></textarea>
       <div class="arow">
         <button class="btn btn-p" onclick="genAPI()" id="api-btn">✨ 生成 pytest 程式碼</button>
+        <button class="btn btn-stop" onclick="stopAnalysis()" id="api-stop-btn" style="display:none">🛑 停止分析</button>
       </div>
       <div class="err" id="api-err"></div>
     </div>
@@ -389,8 +429,70 @@ const SKILLS = [
   { name: '💾 Data',        text: '請加入資料完整性測試：CRUD 一致性、並發寫入、事務回滾。' },
 ];
 
+const I18N = {
+  zh: {
+    topgen_testcase:'✨ 生成測試案例', topgen_gherkin:'✨ 轉換 Gherkin', topgen_apitest:'✨ 生成 pytest', btn_stop:'🛑 停止分析',
+    tc_ctitle:'📝 需求輸入', gh_ctitle:'🥒 User Story 輸入', api_ctitle:'🔧 API 規格輸入',
+    label_count:'案例總數量', maxc_warn:'⚠️ 超過 50 筆，AI 將自動截斷至 50', ttype_title:'🎯 測試類型（選填）',
+    th_title:'測試項目', th_pre:'前置條件', th_steps:'步驟', th_expected:'預期結果', th_pri:'優先級', th_type:'類型',
+    upload_label:'匯入需求檔案（拖曳或點擊）',
+    btn_export:'⬇ 匯出 CSV', cv_label:'轉換為：', cv_exec:'執行',
+    cv_sel:'已選 {n} 個案例',
+    tc_cnt:'共 {n} 個測試案例',
+    ttype_cnt_label:'案例數',
+    ttype_total:'{t} 種類型，共 {s} 個案例',
+    ttype_warn:' ⚠️ 超過上限 50，將自動截斷',
+    err_tc:'請輸入需求描述或匯入檔案', err_gh:'請輸入 User Story', err_api:'請輸入 API 規格',
+    ld_tc:'AI 分析需求中，請稍候…', ld_tc_gen:'AI 生成中', ld_gh:'將 User Story 轉換為 Gherkin…', ld_api:'根據 API 規格生成測試程式碼…',
+    ph_tc:'輸入需求描述，或從上方匯入 Excel / CSV 檔案…\n\n例：使用者登入功能，帳號密碼驗證，失敗 5 次鎖定帳號 15 分鐘。',
+    ph_gh:'貼上 User Story，例如：\n身為電商顧客，我希望可以將商品加入購物車。\n\n驗收條件：\n- 可新增商品\n- 可修改數量\n- 不超過 20 件',
+    ph_api:'貼上 API 規格或 Swagger YAML，例如：\nPOST /api/v1/users\n\nRequest: username(required,3-20), email(required), password(min 8)\nResponse: 201 建立成功 / 400 格式錯誤 / 409 帳號已存在',
+    ai_type_name:'AI 判斷', ai_type_desc:'AI 自動分析需求，決定最適合的測試類型組合',
+    ai_total:'🤖 AI 將自動分析需求並決定測試類型',
+    ttype_descs:{ Functional:'最基本，驗證功能', Regression:'每個 Sprint 結束必跑', Smoke:'部署後第一道關卡', Unit:'開發端自動化', Integration:'模組串接驗證', API:'前後端分離架構必備', Negative:'找出系統弱點', UAT:'上線前最後一關' },
+  },
+  en: {
+    topgen_testcase:'✨ Generate Test Cases', topgen_gherkin:'✨ Convert to Gherkin', topgen_apitest:'✨ Generate pytest', btn_stop:'🛑 Stop',
+    tc_ctitle:'📝 Requirements Input', gh_ctitle:'🥒 User Story Input', api_ctitle:'🔧 API Spec Input',
+    label_count:'Total Cases', maxc_warn:'⚠️ Over 50, AI will truncate to 50', ttype_title:'🎯 Test Type (Optional)',
+    th_title:'Title', th_pre:'Precondition', th_steps:'Steps', th_expected:'Expected', th_pri:'Priority', th_type:'Type',
+    upload_label:'Import requirements (drag or click)',
+    btn_export:'⬇ Export CSV', cv_label:'Convert to:', cv_exec:'Execute',
+    cv_sel:'{n} cases selected',
+    tc_cnt:'Total {n} test cases',
+    ttype_cnt_label:'Count',
+    ttype_total:'{t} types, {s} total cases',
+    ttype_warn:' ⚠️ Exceeds limit 50, will be truncated',
+    err_tc:'Please enter requirements or import a file', err_gh:'Please enter a User Story', err_api:'Please enter API spec',
+    ld_tc:'Analyzing requirements with AI…', ld_tc_gen:'AI generating', ld_gh:'Converting User Story to Gherkin…', ld_api:'Generating test code from API spec…',
+    ph_tc:'Enter requirements, or import from Excel / CSV above…\n\nExample: User login, lock account for 15 min after 5 failed attempts.',
+    ph_gh:'Paste User Story, e.g.:\nAs an e-commerce customer, I want to add products to my cart.\n\nAcceptance Criteria:\n- Can add products\n- Can modify quantities\n- No more than 20 items',
+    ph_api:'Paste API spec or Swagger YAML, e.g.:\nPOST /api/v1/users\n\nRequest: username(required,3-20), email(required), password(min 8)\nResponse: 201 Created / 400 Bad Request / 409 Conflict',
+    ai_type_name:'AI Decide', ai_type_desc:'AI analyzes requirements and picks the best test type mix',
+    ai_total:'🤖 AI will automatically decide test types',
+    ttype_descs:{ Functional:'Core feature validation', Regression:'Must run every Sprint end', Smoke:'First gate after deployment', Unit:'Developer-level automation', Integration:'Module connection validation', API:'Essential for API-driven architecture', Negative:'Finding system weaknesses', UAT:'Final gate before go-live' },
+  }
+};
+function t(key, vars={}) {
+  let s = (I18N[$('lang')?.value] || I18N.zh)[key] || key;
+  Object.entries(vars).forEach(([k,v]) => { s = s.replace('{'+k+'}', v); });
+  return s;
+}
+
+const TEST_TYPES = [
+  { id:'Functional',  emoji:'✅', desc:'最基本，驗證功能' },
+  { id:'Regression',  emoji:'🔁', desc:'每個 Sprint 結束必跑' },
+  { id:'Smoke',       emoji:'💨', desc:'部署後第一道關卡' },
+  { id:'Unit',        emoji:'🔬', desc:'開發端自動化' },
+  { id:'Integration', emoji:'🔗', desc:'模組串接驗證' },
+  { id:'API',         emoji:'🌐', desc:'前後端分離架構必備' },
+  { id:'Negative',    emoji:'⚠️', desc:'找出系統弱點' },
+  { id:'UAT',         emoji:'👤', desc:'上線前最後一關' },
+];
+
 // ── State ──────────────────────────────────────────────
 let tcData = [];
+let abortCtrl = null;
 
 // ── Helpers ────────────────────────────────────────────
 const $ = id => document.getElementById(id);
@@ -490,14 +592,68 @@ function renderSkills() {
 
 // ── Tab ────────────────────────────────────────────────
 function sw(name) {
-  ['testcase','gherkin','apitest'].forEach((n,i) => {
-    document.querySelectorAll('.tab')[i].classList.toggle('active', n===name);
+  ['testcase','gherkin','apitest'].forEach(n => {
+    $('tab-btn-'+n).classList.toggle('active', n===name);
     $('tab-'+n).classList.toggle('active', n===name);
   });
 }
 
+function chkMaxc() {
+  const v = parseInt($('maxc').value) || 0;
+  const w = $('maxc-warn');
+  if (v > 50) { w.style.display='block'; w.textContent = t('maxc_warn'); }
+  else { w.style.display='none'; }
+}
+
+function onLangChange() { applyI18n(); }
+
+function applyI18n() {
+  // Card titles
+  $('tc-ctitle').textContent = t('tc_ctitle');
+  $('gh-ctitle').textContent = t('gh_ctitle');
+  $('api-ctitle').textContent = t('api_ctitle');
+  // Bottom generate buttons
+  $('tc-btn').textContent = t('topgen_testcase');
+  $('gh-btn').textContent = t('topgen_gherkin');
+  $('api-btn').textContent = t('topgen_apitest');
+  // Stop buttons
+  const stopTxt = t('btn_stop');
+  ['tc','gh','api'].forEach(p => { const s=$(p+'-stop-btn'); if(s) s.textContent=stopTxt; });
+  // Labels
+  $('maxc-label').textContent = t('label_count');
+  $('ttype-title').textContent = t('ttype_title');
+  // Table headers
+  $('th-title').textContent = t('th_title');
+  $('th-pre').textContent = t('th_pre');
+  $('th-steps').textContent = t('th_steps');
+  $('th-expected').textContent = t('th_expected');
+  $('th-pri').textContent = t('th_pri');
+  const thType = document.querySelector('.th-type');
+  if(thType) thType.textContent = t('th_type');
+  // Buttons
+  $('tc-exp').textContent = t('btn_export');
+  $('cv-label').textContent = t('cv_label');
+  $('cv-exec').textContent = t('cv_exec');
+  // Upload
+  if(!$('uzone').classList.contains('ok')) $('ulbl').textContent = t('upload_label');
+  // Placeholders
+  $('tci').placeholder = t('ph_tc');
+  $('ghi').placeholder = t('ph_gh');
+  $('api').placeholder = t('ph_api');
+  // Re-render test types with language
+  renderTTypes();
+  updTTotal();
+}
+
 // ── Load/Error ─────────────────────────────────────────
-function setLd(p,on,msg){ $(p+'-ld').classList.toggle('on',on); const b=$(p+'-btn'); if(b)b.disabled=on; if(msg){const m=$(p+'-ldm');if(m)m.textContent=msg;} }
+function setLd(p, on, msg) {
+  $(p+'-ld').classList.toggle('on', on);
+  const b = $(p+'-btn'); if (b) b.disabled = on;
+  if (msg && $(p+'-ldm')) $(p+'-ldm').textContent = msg;
+  const stopBtn = $(p+'-stop-btn');
+  if (stopBtn) stopBtn.style.display = on ? 'inline-flex' : 'none';
+}
+function stopAnalysis() { if (abortCtrl) { abortCtrl.abort(); abortCtrl = null; } }
 function shErr(p,msg){ const e=$(p+'-err'); e.textContent='❌ '+msg; e.classList.add('on'); }
 function clErr(p){ $(p+'-err').classList.remove('on'); }
 
@@ -520,39 +676,180 @@ async function doFile(f) {
   } catch(e){ $('ulbl').textContent='❌ '+e.message; $('uzone').classList.remove('ok'); }
 }
 
+// ── Test Types ─────────────────────────────────────────
+function renderTTypes() {
+  const aiChecked = $('ttck-AI')?.checked || false;
+  const state = {};
+  TEST_TYPES.forEach(tt => {
+    state[tt.id] = { checked: $('ttck-'+tt.id)?.checked||false, count: $('ttcnt-'+tt.id)?.value||'5' };
+  });
+  const grid = $('ttype-grid');
+  grid.innerHTML = '';
+  const L = I18N[$('lang')?.value] || I18N.zh;
+
+  // ── AI 判斷（全寬）
+  const aiRow = document.createElement('div');
+  aiRow.className = 'ttype-row ttype-row-ai' + (aiChecked ? ' active' : '');
+  aiRow.id = 'ttr-AI';
+  aiRow.innerHTML =
+    `<input type="checkbox" id="ttck-AI"${aiChecked?' checked':''}>` +
+    `<span class="ttype-name">🤖 ${L.ai_type_name}</span>` +
+    `<span class="ttype-desc">${L.ai_type_desc}</span>`;
+  aiRow.addEventListener('click', e => { if(e.target.tagName==='INPUT')return; $('ttck-AI').checked=!$('ttck-AI').checked; onAIType(); });
+  aiRow.querySelector('input[type=checkbox]').addEventListener('change', () => onAIType());
+  grid.appendChild(aiRow);
+
+  // ── 各類型（2 欄）
+  TEST_TYPES.forEach(tt => {
+    const desc = L.ttype_descs[tt.id] || tt.id;
+    const s = state[tt.id];
+    const isActive = s.checked && !aiChecked;
+    const row = document.createElement('div');
+    row.className = 'ttype-row' + (isActive ? ' active' : '') + (aiChecked ? ' disabled' : '');
+    row.id = 'ttr-' + tt.id;
+    row.innerHTML =
+      `<input type="checkbox" id="ttck-${tt.id}"${isActive?' checked':''}>` +
+      `<span class="ttype-name">${tt.emoji} ${tt.id}</span>` +
+      `<span class="ttype-desc">${desc}</span>` +
+      `<span class="ttype-cnt"><span>${t('ttype_cnt_label')}</span>` +
+      `<input type="number" id="ttcnt-${tt.id}" min="1" max="50" value="${s.count}"></span>`;
+    row.addEventListener('click', e => { if(e.target.tagName==='INPUT')return; const ck=$('ttck-'+tt.id); ck.checked=!ck.checked; onTType(tt.id); });
+    row.querySelector('input[type=number]').addEventListener('input', e => { e.stopPropagation(); updTTotal(); });
+    row.querySelector('input[type=checkbox]').addEventListener('change', () => onTType(tt.id));
+    grid.appendChild(row);
+  });
+}
+
+function onAIType() {
+  const aiChecked = $('ttck-AI')?.checked;
+  $('ttr-AI').classList.toggle('active', !!aiChecked);
+  TEST_TYPES.forEach(tt => {
+    $('ttr-'+tt.id)?.classList.toggle('disabled', !!aiChecked);
+    if (aiChecked) { const ck=$('ttck-'+tt.id); if(ck)ck.checked=false; $('ttr-'+tt.id)?.classList.remove('active'); }
+  });
+  $('maxc-wrap').style.opacity = '1';
+  $('maxc-wrap').title = '';
+  updTTotal();
+}
+
+function onTType(id) {
+  const checked = $('ttck-' + id).checked;
+  $('ttr-' + id).classList.toggle('active', checked);
+  updTTotal();
+  const anySelected = TEST_TYPES.some(tt => $('ttck-' + tt.id)?.checked);
+  $('maxc-wrap').style.opacity = anySelected ? '0.4' : '1';
+  $('maxc-wrap').title = anySelected ? t('label_count') + ' 已由各類型獨立設定' : '';
+}
+
+function updTTotal() {
+  const tot = $('ttype-total');
+  if ($('ttck-AI')?.checked) {
+    tot.style.display = 'block';
+    tot.className = 'ttype-total ok';
+    tot.textContent = t('ai_total');
+    return;
+  }
+  const sel = TEST_TYPES.filter(tt => $('ttck-' + tt.id)?.checked);
+  if (!sel.length) { tot.style.display = 'none'; return; }
+  let sum = 0;
+  sel.forEach(tt => { sum += parseInt($('ttcnt-' + tt.id)?.value || 5) || 0; });
+  tot.style.display = 'block';
+  tot.className = 'ttype-total ' + (sum > 50 ? 'warn' : 'ok');
+  tot.textContent = t('ttype_total', {t: sel.length, s: sum}) + (sum > 50 ? t('ttype_warn') : '');
+}
+
+function getTTypesData() {
+  if ($('ttck-AI')?.checked) return [{ type: 'AI', count: 0 }];
+  const result = [];
+  TEST_TYPES.forEach(tt => {
+    if ($('ttck-' + tt.id)?.checked) {
+      result.push({ type: tt.id, count: parseInt($('ttcnt-' + tt.id)?.value || 5) || 5 });
+    }
+  });
+  return result.length ? result : null;
+}
+
 // ── Generate Test Case ─────────────────────────────────
 async function genTC() {
   const inp=$('tci').value.trim();
-  if(!inp){shErr('tc','請輸入需求描述或匯入檔案');return;}
+  if(!inp){shErr('tc',t('err_tc'));return;}
   clErr('tc'); $('tc-res').style.display='none'; $('tc-exp').style.display='none';
   $('cvbar').classList.remove('on'); $('sa').checked=false;
-  setLd('tc',true,'AI 分析需求中，請稍候…');
+  abortCtrl = new AbortController();
+  setLd('tc', true, t('ld_tc'));
+  const testTypes = getTTypesData();
+  const isAI = testTypes?.[0]?.type === 'AI';
+  const maxCases = (!testTypes || isAI) ? (parseInt($('maxc').value)||10) : 50;
   try {
-    const res=await fetch('/generate/testcase',{method:'POST',headers:apiH(),
-      body:JSON.stringify({input_text:inp,language:$('lang').value,max_cases:parseInt($('maxc').value)||10,context:getMem()||null})});
-    if(!res.ok){const e=await res.json();throw new Error(e.detail);}
-    tcData=await res.json();
+    const res = await fetch('/generate/testcase/stream', {
+      method: 'POST', headers: apiH(), signal: abortCtrl.signal,
+      body: JSON.stringify({input_text:inp, language:$('lang').value, max_cases:maxCases, context:getMem()||null, test_types:testTypes})
+    });
+    if (!res.ok) { const e=await res.json(); throw new Error(e.detail); }
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let buf='', accumulated='', caseCount=0;
+    while (true) {
+      const {done, value} = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, {stream:true});
+      const lines = buf.split('\n'); buf = lines.pop();
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const payload = line.slice(6).trim();
+        if (payload === '[DONE]') continue;
+        try {
+          const obj = JSON.parse(payload);
+          if (obj.error) throw new Error(obj.error);
+          if (obj.d) {
+            accumulated += obj.d;
+            const n = (accumulated.match(/"id"\s*:/g)||[]).length;
+            if (n !== caseCount) {
+              caseCount = n;
+              const pct = Math.min(99, Math.round(n/maxCases*100));
+              const ldm=$('tc-ldm'); if(ldm) ldm.textContent=`${t('ld_tc_gen')} — ${n}/${maxCases} (${pct}%)`;
+            }
+          }
+        } catch(pe){ if (pe.message && !pe.message.includes('JSON')) throw pe; }
+      }
+    }
+    const clean = accumulated.replace(/^```(?:json)?\n?/,'').replace(/\n?```$/,'').trim();
+    try { tcData=JSON.parse(clean); }
+    catch(_){ const m=clean.match(/\[[\s\S]*\]/); if(m) tcData=JSON.parse(m[0]); else throw new Error('無法解析回傳 JSON，請重試'); }
     renderTbl(tcData);
-  } catch(e){shErr('tc',e.message);}
-  finally{setLd('tc',false);}
+  } catch(e){ if(e.name!=='AbortError') shErr('tc',e.message); }
+  finally{ abortCtrl=null; setLd('tc',false); }
 }
 
 // ── Render Table ───────────────────────────────────────
 function renderTbl(data) {
+  const hasType = data.some(tc => tc.test_type);
+  const thead = document.querySelector('#tc-tb').closest('table').querySelector('thead tr');
+  const existingTypeTh = thead.querySelector('.th-type');
+  if (hasType && !existingTypeTh) {
+    const th = document.createElement('th');
+    th.className = 'th-type';
+    th.textContent = t('th_type');
+    thead.appendChild(th);
+  } else if (!hasType && existingTypeTh) {
+    existingTypeTh.remove();
+  }
+
   const tb=$('tc-tb'); tb.innerHTML='';
   data.forEach((tc,idx)=>{
     const steps=Array.isArray(tc.steps)?'<ul class="sl">'+tc.steps.map(s=>'<li>'+escH(s)+'</li>').join('')+'</ul>':escH(tc.steps||'');
     const p=tc.priority||'Medium';
     const bc=p==='High'?'bh':p==='Low'?'bl':'bm';
     const dot=p==='High'?'🔴':p==='Low'?'🟢':'🟡';
+    const typeCell = hasType ? `<td><span class="ttype-badge">${escH(tc.test_type||'')}</span></td>` : '';
     const tr=document.createElement('tr');
     tr.innerHTML=`<td class="cktd"><input type="checkbox" class="ck2" data-i="${idx}" onchange="onCk()"></td>
       <td class="idc">${escH(tc.id||'')}</td><td class="ttc">${escH(tc.title||'')}</td>
       <td class="prc">${escH(tc.precondition||'')}</td><td class="stc">${steps}</td>
-      <td class="exc">${escH(tc.expected||'')}</td><td><span class="badge ${bc}">${dot} ${p}</span></td>`;
+      <td class="exc">${escH(tc.expected||'')}</td><td><span class="badge ${bc}">${dot} ${p}</span></td>${typeCell}`;
     tb.appendChild(tr);
   });
-  $('tc-cnt').textContent='共 '+data.length+' 個測試案例';
+  $('tc-cnt').textContent=t('tc_cnt',{n:data.length});
   $('tc-res').style.display='block'; $('tc-exp').style.display='inline-flex';
 }
 
@@ -564,7 +861,7 @@ function onCk(){
   document.querySelectorAll('.ck2').forEach(c=>c.closest('tr').classList.toggle('sel',c.checked));
   updCV();
 }
-function updCV(){ const n=document.querySelectorAll('.ck2:checked').length; $('cvbar').classList.toggle('on',n>0); $('cvlb').textContent='已選 '+n+' 個案例'; }
+function updCV(){ const n=document.querySelectorAll('.ck2:checked').length; $('cvbar').classList.toggle('on',n>0); $('cvlb').textContent=t('cv_sel',{n}); }
 function getSelTC(){ return Array.from(document.querySelectorAll('.ck2:checked')).map(c=>tcData[parseInt(c.dataset.i)]); }
 
 // ── Execute Convert ────────────────────────────────────
@@ -595,10 +892,15 @@ async function exCV() {
 // ── Export CSV ─────────────────────────────────────────
 function expCSV(){
   if(!tcData.length)return;
+  const hasType = tcData.some(t => t.test_type);
   const hdr=['ID','測試項目','前置條件','測試步驟','預期結果','優先級'];
-  const rows=tcData.map(t=>[t.id||'',t.title||'',t.precondition||'',
-    Array.isArray(t.steps)?t.steps.join(' | '):(t.steps||''),t.expected||'',t.priority||'']
-    .map(v=>'"'+String(v).replace(/"/g,'""')+'"'));
+  if(hasType) hdr.push('測試類型');
+  const rows=tcData.map(t=>{
+    const base=[t.id||'',t.title||'',t.precondition||'',
+      Array.isArray(t.steps)?t.steps.join(' | '):(t.steps||''),t.expected||'',t.priority||''];
+    if(hasType) base.push(t.test_type||'');
+    return base.map(v=>'"'+String(v).replace(/"/g,'""')+'"');
+  });
   const blob=new Blob(['﻿'+[hdr.map(h=>'"'+h+'"'),...rows].join('\n')],{type:'text/csv;charset=utf-8;'});
   const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:'testcases_'+new Date().toISOString().slice(0,10)+'.csv'});
   a.click(); URL.revokeObjectURL(a.href);
@@ -606,28 +908,32 @@ function expCSV(){
 
 // ── Generate Gherkin ───────────────────────────────────
 async function genGH(){
-  const inp=$('ghi').value.trim(); if(!inp){shErr('gh','請輸入 User Story');return;}
+  const inp=$('ghi').value.trim(); if(!inp){shErr('gh',t('err_gh'));return;}
   clErr('gh'); $('gh-res').style.display='none'; $('gh-lbl').textContent='gherkin';
-  setLd('gh',true,'將 User Story 轉換為 Gherkin…');
+  abortCtrl = new AbortController();
+  setLd('gh',true,t('ld_gh'));
   try{
-    const res=await fetch('/generate/gherkin',{method:'POST',headers:apiH(),body:JSON.stringify({input_text:inp,context:getMem()||null})});
+    const res=await fetch('/generate/gherkin',{method:'POST',headers:apiH(),signal:abortCtrl.signal,body:JSON.stringify({input_text:inp,context:getMem()||null})});
     if(!res.ok){const e=await res.json();throw new Error(e.detail);}
     $('gh-code').textContent=(await res.json()).gherkin; $('gh-res').style.display='block';
-  }catch(e){shErr('gh',e.message);}finally{setLd('gh',false);}
+  }catch(e){ if(e.name!=='AbortError') shErr('gh',e.message); }
+  finally{ abortCtrl=null; setLd('gh',false); }
 }
 
 // ── Generate API Test ──────────────────────────────────
 async function genAPI(){
-  const inp=$('api').value.trim(); if(!inp){shErr('api','請輸入 API 規格');return;}
+  const inp=$('api').value.trim(); if(!inp){shErr('api',t('err_api'));return;}
   clErr('api'); $('api-res').style.display='none'; $('api-lbl').textContent='python · pytest';
-  setLd('api',true,'根據 API 規格生成測試程式碼…');
+  abortCtrl = new AbortController();
+  setLd('api',true,t('ld_api'));
   try{
-    const res=await fetch('/generate/api-testcase',{method:'POST',headers:apiH(),body:JSON.stringify({input_text:inp,context:getMem()||null})});
+    const res=await fetch('/generate/api-testcase',{method:'POST',headers:apiH(),signal:abortCtrl.signal,body:JSON.stringify({input_text:inp,context:getMem()||null})});
     if(!res.ok){const e=await res.json();throw new Error(e.detail);}
     let code=(await res.json()).pytest_code;
     code=code.replace(/^```python\n?/i,'').replace(/^```\n?/,'').replace(/\n?```$/,'');
     $('api-code').textContent=code; $('api-res').style.display='block';
-  }catch(e){shErr('api',e.message);}finally{setLd('api',false);}
+  }catch(e){ if(e.name!=='AbortError') shErr('api',e.message); }
+  finally{ abortCtrl=null; setLd('api',false); }
 }
 
 // ── Copy ───────────────────────────────────────────────
@@ -649,6 +955,8 @@ document.addEventListener('keydown',e=>{
 
 // ── Init ───────────────────────────────────────────────
 updInds();
+renderTTypes();
+applyI18n();
 </script>
 </body>
 </html>
