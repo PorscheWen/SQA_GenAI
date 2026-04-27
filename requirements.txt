@@ -1,6 +1,7 @@
 fastapi
 uvicorn
 anthropic
+openai
 python-dotenv
 python-multipart
 openpyxl
