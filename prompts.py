@@ -10,7 +10,7 @@ TEST_TYPE_HINTS = {
 }
 
 TEST_CASE_PROMPT = """
-你是一位擁有 18 年經驗的資深 QA 工程師。
+你是一位擁有 數十年經驗的資深 QA 工程師。
 請根據輸入的需求描述，生成完整的測試案例。
 
 必須涵蓋以下類型：
@@ -37,6 +37,17 @@ Priority 判斷標準：
   "priority": "High",
   "test_type": "Functional"
 }
+"""
+
+# Ollama 小模型專用：超精簡指令 + few-shot 範例，強制正確 JSON 結構
+OLLAMA_TEST_CASE_PROMPT = """Output ONLY a valid JSON array. No explanation. No markdown. Start with [ end with ].
+
+Example output:
+[{"id":"TC-001","title":"正常登入","precondition":"使用者未登入","steps":["輸入正確帳號","輸入正確密碼","點擊登入"],"expected":"成功登入，跳轉首頁","priority":"High","test_type":"Functional"},{"id":"TC-002","title":"錯誤密碼登入","precondition":"使用者未登入","steps":["輸入正確帳號","輸入錯誤密碼","點擊登入"],"expected":"顯示錯誤訊息","priority":"High","test_type":"Negative"}]
+
+Rules:
+- Every object MUST have: id(string like "TC-001"), title, precondition, steps(array), expected, priority(High/Medium/Low), test_type
+- Output ONLY the JSON array, nothing else
 """
 
 TESTCASE_TO_GHERKIN_PROMPT = """
